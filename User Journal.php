@@ -30,7 +30,8 @@
 		<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.6.1.min.js"></script>
 		<title>The Fitness Journal</title>
 		<style>
-                         body{
+			 body{
+				color:white;
                               padding:0px;
                               margin:0px;
                               background-color:#F5F5F5;
@@ -113,7 +114,7 @@
 			<img src="FitnessHeader.jpg" border="0" alt="The Fitness Journal"/>
 		</div>
 		<div>
-			<a href="Daily%20Exercises.php?action=logout">Logout</a>
+			<a href="maintEx.php">Exercise Maint.</a> | <a href="Daily%20Exercises.php?action=logout">Logout</a>
 		</div>
 		<div style="text-align:left; font-size:20px;">
 			<p style="display:inline;">It's good to see you're getting fit <?php echo $_SESSION["user"];?>!</p><br/><br/>

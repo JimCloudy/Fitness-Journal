@@ -23,7 +23,8 @@
 	<head>
 		<title>The Fitness Journal</title>
 		<style>
-                         body{
+			 body{
+				color:white;
                               padding:0px;
                               margin:0px;
                               background-color:#F5F5F5;
@@ -32,7 +33,7 @@
                               border-bottom-right-radius:25px;
                               border-bottom-left-radius:25px;
                          }
-                         div{
+			 div{
                               width:800px;
                               margin-left:auto;
                               margin-right:auto;
@@ -123,7 +124,7 @@
 			<img src="FitnessHeader.jpg" border="0" alt="The Fitness Journal"></a>
 		</div>
 		<div>
-			<a href="User Journal.php">My Journal</a> <a href="Daily Exercises.php?action=logout">Logout</a>
+			<a href="User Journal.php">My Journal</a> | <a href="Daily Exercises.php?action=logout">Logout</a>
 		</div>
 		<div>
 <?php
