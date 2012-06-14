@@ -45,7 +45,11 @@
                               color:white;
                               font-weight:bold;
                               font-size:15px;
-                         }
+			 }
+			table{
+				display:inline-block;
+				border:solid white;
+			}
                          td,th,p,h4{
                               color:white;
 			 }
@@ -61,10 +65,10 @@
 			 a:active {color:white;}			      			
 		</style>
 		<script>
-			function addExercise(exercise, sets, reps, maxWt, resultElementName){
-				if(!maxWt)
+			function addExercise(exercise, reps, setsWt){
+				if(!setsWt)
 				{
-					maxWt=0;
+					setsWt=0;
 				}
 				var xmlhttp;
 				if (window.XMLHttpRequest)
@@ -75,7 +79,7 @@
   				{// code for IE6, IE5
   					xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
 				}
-				xmlhttp.open("GET","addDlyExercise.php?ex="+exercise+"&sets="+sets+"&reps="+reps+"&wt="+maxWt,true);
+				xmlhttp.open("GET","addDlyExercise.php?ex="+exercise+"&reps="+reps+"&wt="+setsWt,true);
 				xmlhttp.send();
 				xmlhttp.onreadystatechange=function()
   				{
@@ -171,36 +175,38 @@
 					
 
 				</select><br/>
-				<label for "sets">Total # of Sets</label>
-				<input name="sets" id="sets"/><br/>
 				<label for="reps">Total # of Reps</label>
 				<input name="reps" id="reps"/><br/>
-				<label for="maxWt">Max Weight</label>
-				<input name="maxWt" id="maxWt"/><br/>
-				<input type="button" value="Add Exercise" name="addEx" onclick="addExercise(exercise.value, sets.value, reps.value, maxWt.value, 'exTable')"/>
+				<label for="setsWt">Weight</label>
+				<input name="setsWt" id="setsWt"/><br/>
+				<input type="button" value="Add Exercise" name="addEx" onclick="addExercise(exercise.value, reps.value, setsWt.value)"/>
 			</form>
 		</div>
 		<div id="ex_display" style="visibility:hidden;">
-			<table id="exTable">
-				<tr>
-					<th>Exercise</th>
-					<th>Sets</th>
-					<th>Reps</th>
-					<th>Max Wt</th>
 <?php
-	$sql="SELECT * FROM Dly_Exercises WHERE U_Id=" . $_SESSION['uid'] . " AND Ent_Id=" . $_SESSION['Ent_Id'];
+	$sql="SELECT * FROM Dly_Exercises WHERE U_Id=" . $_SESSION['uid'] . " AND Ent_Id=" . $_SESSION['Ent_Id'] . ' ORDER BY E_Id ASC';
 	$result = mysql_query($sql);
- 
+        $lstEx = "";
 	while($row = mysql_fetch_array($result))
 	{
+		if($row['E_Id'] != $lstEx)
+		{
+			if($lstEx)
+			{
+				echo "</table><br/>";
+			}
+			$lstEx = $row['E_Id'];
+			echo "<table><tr><th>Exercise</th><th>Reps</th><th>Weight</th></tr>";
+		}
 		$makevis=1;
 		$sql = "SELECT E_Name FROM Exercises WHERE E_Id =" . $row['E_Id'];
 		
 		$ex = mysql_fetch_array(mysql_query($sql));
-		echo "<tr><td>" . $ex['E_Name'] . "</td><td>" . $row['Dly_Sets'] . "</td><td>" . $row['Dly_Reps'] . "</td><td>" . $row['Dly_MaxWt'] . "</td></tr>";
+		echo "<tr><td>" . $ex['E_Name'] . "</td><td>" . $row['Dly_Reps'] . "</td><td>" . $row['Dly_Wt'] . "</td></tr>";
 	}
 	if($makevis)
 	{
+		echo "</table>";
 ?>
 		<script>
 			document.getElementById("ex_entry").style.borderRadius="0px";

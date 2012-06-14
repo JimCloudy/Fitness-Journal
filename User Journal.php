@@ -61,7 +61,7 @@
 			 }
 			 a{color:white;}
 			 a:visited {color:white;} 
-			 a:hover {color:white;}  
+			 a:hover {color:yellow;}  
 			 a:active {color:yellow;}			      			
 		</style>
 		<script>
