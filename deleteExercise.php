@@ -13,7 +13,7 @@
 	
 	mysql_select_db("a3940063_journal", $con);
 
-	$sql='UPDATE Exercises SET E_Name="' . $_GET['exChg'] . '" WHERE U_Id=' . $_SESSION['uid'] . ' AND E_Id=' . $_GET['ex'];
+	$sql='DELETE FROM Exercises WHERE U_Id=' . $_SESSION['uid'] . ' AND E_Id=' . $_GET['ex'];
 
 	mysql_query($sql);
 
@@ -21,16 +21,13 @@
 
 	$result=mysql_query($sql);
 
-	if($row=mysql_fetch_array($result))
+	if(!$row=mysql_fetch_array($result))
 	{
-		if($row['E_Name']==$_GET['exChg'])
-		{
-			echo "success";
-		}
-		else
-		{
-			echo "failure";
-		}
+		$sql='DELETE FROM Dly_Exercises WHERE U_Id=' . $_SESSION['uid'] . ' AND E_Id=' . $_GET['ex'];
+
+		mysql_query($sql);
+
+		echo "success";
 	}
 	else
 	{

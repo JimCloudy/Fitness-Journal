@@ -16,7 +16,7 @@
                               margin:0px;
                               background-color:#F5F5F5;
                          }
-                         #ex_display{
+                         #addEx_Display{
                               border-bottom-right-radius:25px;
                               border-bottom-left-radius:25px;
                          }
@@ -33,7 +33,10 @@
                               color:white;
                               font-weight:bold;
                               font-size:15px;
-                         }
+			 }
+			#newErr{
+				color:yellow;
+			}
                          td,th,p,h4{
                               color:white;
                          }
@@ -46,30 +49,90 @@
 			 a:active {color:yellow;}			      			
 		</style>
 		<script>
-			function editEx(exId){
+			function editEx(exId,exChg){
+				if(exChg)
+				{
+					var xmlhttp;
+					if (window.XMLHttpRequest)
+					{// code for IE7+, Firefox, Chrome, Opera, Safari
+  						xmlhttp=new XMLHttpRequest();
+ 		 			}
+					else
+  					{// code for IE6, IE5
+  						xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+  					}
+					xmlhttp.open("GET","editExercise.php?ex="+exId+"&exChg="+exChg,true);
+					xmlhttp.send();
+					xmlhttp.onreadystatechange=function()
+  					{
+  						if (xmlhttp.readyState==4 && xmlhttp.status==200)
+  						{
+							if (xmlhttp.responseText.substr(0,7) == "success")
+							{
+								window.location="maintEx.php";
+							}
+						}
+					}			
+				}
+				else
+				{
+					alert("Enter something");
+				}
+			}
+			function deleteEx(exId){
 				var xmlhttp;
 				if (window.XMLHttpRequest)
 				{// code for IE7+, Firefox, Chrome, Opera, Safari
-  					xmlhttp=new XMLHttpRequest();
- 	 			}
+					xmlhttp=new XMLHttpRequest();
+	 			}
 				else
-  				{// code for IE6, IE5
-  					xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-  				}
-  				var exDate = ex_date.substring(6) + ex_date.substring(0,2) + ex_date.substring(3,5);
-  				exChg
-				xmlhttp.open("GET","editExercise.php?ex="+exId+"&exChg="+,true);
+				{// code for IE6, IE5
+					xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+				}
+				xmlhttp.open("GET","deleteExercise.php?ex="+exId,true);
 				xmlhttp.send();
 				xmlhttp.onreadystatechange=function()
-  				{
-  					if (xmlhttp.readyState==4 && xmlhttp.status==200)
-  					{
+				{
+					if (xmlhttp.readyState==4 && xmlhttp.status==200)
+					{
 						if (xmlhttp.responseText.substr(0,7) == "success")
 						{
 							window.location="maintEx.php";
 						}
 					}
-  				}			
+				}			
+			}
+			function addEx(exName)
+			{
+				if(exName)
+				{
+					var xmlhttp;
+					if (window.XMLHttpRequest)
+					{// code for IE7+, Firefox, Chrome, Opera, Safari
+						xmlhttp=new XMLHttpRequest();
+	 				}
+					else
+					{// code for IE6, IE5
+						xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
+					}
+					xmlhttp.open("GET","addExercise.php?exName="+exName,true);
+					xmlhttp.send();
+					xmlhttp.onreadystatechange=function()
+					{
+						if (xmlhttp.readyState==4 && xmlhttp.status==200)
+						{
+							if (xmlhttp.responseText.substr(0,7) == "success")
+							{
+								window.location="maintEx.php";
+							}
+							else if(xmlhttp.responseText.substr(0,6) == "exists")
+							{
+								document.getElementById("newErr").innerHTML="Exercise Already Exists";
+								document.getElementById("newEx").value="";
+							}
+						}
+					}			
+				}
 			}
 		</script>
 	</head>
@@ -97,12 +160,19 @@
 	
 	while($row = mysql_fetch_array($result))
 	{
-		echo $row['E_Name'] . '<input name="' . $row['E_Id'] . '" id="ex' . $row['E_Id'] . '"/><input type="button" value="Edit" onclick="editEx(' . $row['E_Id'] . ')"/><input type="button" value="Delete" onclick="deleteEx(' . $row['E_Id'] . ', ex' . $row['E_Id'] . '.value)"><br/>';
+		echo $row['E_Name'] . '<input name="ex' . $row['E_Id'] . '" id="ex' . $row['E_Id'] . '"/><input type="button" value="Edit" onclick="editEx(' . $row['E_Id'] . ', ex' . $row['E_Id'] . '.value)"/><input type="button" value="Delete" onclick="deleteEx(' . $row['E_Id'] . ')"><br/>';
 	}
 	
 	echo "</form>";
 ?>
 		</div>
-		
+		<div id="addEx_Display">
+			<p id="newErr" style="display:inline-block;"></p>
+			<form>
+				<label for="newEx">New Exercise Name</label>
+				<input name="newEx" id="newEx"/>
+				<input type="button" value="Add Exercise" onclick="addEx(newEx.value)"/>
+			</form>		
+		</div>
 	</body>
 </html>	

@@ -124,7 +124,7 @@
 			<img src="FitnessHeader.jpg" border="0" alt="The Fitness Journal"></a>
 		</div>
 		<div>
-			<a href="User Journal.php">My Journal</a> | <a href="Daily Exercises.php?action=logout">Logout</a>
+			<a href="User Journal.php">My Journal</a> | <a href="maintEx.php">Exercise Maint</a> | <a href="Daily Exercises.php?action=logout">Logout</a>
 		</div>
 		<div>
 <?php
@@ -165,7 +165,8 @@
 				<select name="exercise" id="exercise">
 					<option value="">Choose Exercise</option>
 <?php
-	$result = mysql_query("SELECT * FROM Exercises");
+	$sql="SELECT * FROM Exercises WHERE U_Id=" . $_SESSION['uid'];
+	$result = mysql_query($sql);
  
 	while($row = mysql_fetch_array($result))
 	{

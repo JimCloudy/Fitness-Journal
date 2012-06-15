@@ -56,14 +56,17 @@
                          }
                          td,th,p,h4{
                               color:white;
-                         }
+                  	}
                          h4{
                               margin:0px;
 			 }
-			 a{color:white;}
-			 a:visited {color:white;} 
-			 a:hover {color:yellow;}  
-			 a:active {color:yellow;}			      			
+			a{
+				cursor:pointer;
+				color:white;
+			}
+			a:visited {color:white;} 
+			a:hover {color:yellow;}  
+			a:active {color:yellow;}			      			
 		</style>
 		<script>
 			function addEntry(ex_date) {
