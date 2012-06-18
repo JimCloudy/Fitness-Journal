@@ -21,6 +21,15 @@
 <!DOCTYPE html>
 <html>
 	<head>
+		<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.6.2/jquery.min.js"></script>
+		<script>
+			$(document).ready(function(){
+				$(".chgReps").blur(function(){
+					//$(this).val("hahahaha");
+					alert("why muthafucka");
+				});
+			});
+		</script>
 		<title>The Fitness Journal</title>
 		<style>
 			 body{
@@ -116,6 +125,13 @@
 					}
 				}
 			}
+			function editReps(repsId, reps)
+			{
+				var tdReps = document.getElementById(repsId);
+				var inputReps = repsId.replace("reps", "input");
+				tdReps.innerHTML = "<form><input class='chgReps' id='"+inputReps+"' value='"+reps+"'></form>";
+				document.getElementById(inputReps).focus();
+			}
 		</script>
 	</head>
 	<body>
@@ -204,7 +220,7 @@
 		$sql = "SELECT E_Name FROM Exercises WHERE E_Id =" . $row['E_Id'];
 		
 		$ex = mysql_fetch_array(mysql_query($sql));
-		echo "<tr><td>" . $ex['E_Name'] . "</td><td>" . $row['Dly_Reps'] . "</td><td>" . $row['Dly_Wt'] . "</td></tr>";
+		echo "<tr><td>" . $ex['E_Name'] . '</td><td id="reps' . $row['Dly_Id'] . '" onclick="editReps(' . "'reps" . $row['Dly_Id'] . "'," . $row['Dly_Reps'] . ')">' . $row['Dly_Reps'] . "</td><td>" . $row['Dly_Wt'] . "</td></tr>";
 	}
 	if($makevis)
 	{
